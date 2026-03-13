@@ -19,6 +19,18 @@ Written by Guido Appenzeller, guido@appenzeller.net.
 
 ## Installation
 
+With pip:
+
+```bash
+pip install LibGranola
+```
+
+With uv:
+
+```bash
+uv add LibGranola
+```
+
 For development:
 
 ```bash
