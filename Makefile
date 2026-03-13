@@ -1,0 +1,23 @@
+.PHONY: install test lint format build clean publish
+
+install:
+	uv sync --dev
+
+test:
+	uv run pytest -v
+
+lint:
+	uv run ruff check src/ tests/
+
+format:
+	uv run ruff format src/ tests/
+
+build:
+	uv build
+
+clean:
+	rm -rf dist/ build/ *.egg-info .pytest_cache
+	find . -type d -name __pycache__ -exec rm -rf {} +
+
+publish: clean build
+	set -a && . ./.env && set +a && uv publish

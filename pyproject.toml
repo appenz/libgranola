@@ -1,0 +1,43 @@
+[project]
+name = "libgranola"
+version = "0.1.0"
+description = "Python library to read local Granola meeting notes"
+readme = "README.md"
+license = "Apache-2.0"
+authors = [
+    { name = "Guido Appenzeller", email = "guido@appenzeller.net" }
+]
+requires-python = ">=3.13"
+keywords = ["granola", "meetings", "notes", "transcripts"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Operating System :: MacOS",
+    "Programming Language :: Python :: 3.13",
+    "License :: OSI Approved :: Apache Software License",
+]
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/appenz/libgranola"
+Repository = "https://github.com/appenz/libgranola"
+Issues = "https://github.com/appenz/libgranola/issues"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.9.0",
+]
+
+[build-system]
+requires = ["uv_build>=0.8.8,<0.9.0"]
+build-backend = "uv_build"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+target-version = "py313"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "W", "UP"]
