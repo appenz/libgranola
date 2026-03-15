@@ -4,6 +4,19 @@ A Python library to read local Granola meeting notes from the application's cach
 
 ## Overview
 
+NOTE: As of Granola cache-v6.json, this library no longer works. The actual data seems to live in an encrypted SQLite database. Below a best guess from Codex where the data is located. They also don't have a local API and they don't have a cloud API for basic users. This probably means it's time to switch away from Granola.
+
+Buried in Chromium's Origin Private File System (OPFS), there are two key files:
+
+OPFS file	Maps to	Size
+File System/000/t/00/00000001	/granola.db	2.3 MB
+File System/000/t/00/00000003	/granola.db-wal	4.6 MB
+The WAL file has a valid SQLite WAL header (magic 0x377F0682, page size 4096, format version 3007000, 1118 frames across 232 unique pages). However, all page content is encrypted — page 1 has random bytes instead of the standard SQLite format 3\0 header. This is consistent with SQLCipher or a similar encryption extension used by wa-sqlite inside the Electron app.
+
+"Saki Weisman" and "Guido/Kamakshi" were not found anywhere — not in the cache JSON, not in the OPFS database (encrypted), not in Session Storage, Local Storage, IndexedDB, or any of the 356 files in the Granola data directory.
+
+Bottom line: Granola stores its full notes and transcripts in an encrypted SQLite database accessible only to the running Electron app. The cache-v6.json that libgranola reads is a lightweight metadata layer with mostly empty note/transcript fields. To get full transcript access, you'd likely need to go through Granola's Supabase API (the app has auth tokens in supabase.json) rather than reading local files.
+
 - Read-only access to Granola meetings, transcripts, and people
 - Zero dependencies beyond the Python standard library
 - Fully typed with frozen dataclasses
